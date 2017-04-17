@@ -2,8 +2,8 @@
 mlEstimator = R6::R6Class(
   classname = "mlEstimator",
   public = list(
-    fit = function(X, y, ...) raise_placeholder_error(),
-    predict = function(X, ...) raise_placeholder_error()
+    fit = function(x, y, ...) raise_placeholder_error(),
+    predict = function(x, ...) raise_placeholder_error()
   ),
   private = list(
     #-------------------------------------------------------------------------------------
@@ -20,22 +20,22 @@ mlEstimator = R6::R6Class(
       private$internal_matrix_formats = list(sparse = sparse, dense = dense)
     },
     #-------------------------------------------------------------------------------------
-    check_convert_input = function(X, internal_formats, verbose = FALSE) {
+    check_convert_input = function(x, internal_formats, verbose = FALSE) {
       stopifnot(all(names(internal_formats) %in% c("sparse", "dense")))
 
       # first check sparse input
-      if(inherits(X, "sparseMatrix")) {
+      if(inherits(x, "sparseMatrix")) {
         sparse_format = internal_formats[["sparse"]]
         if(is.null(sparse_format))
           stop("input inherits from 'sparseMatrix', but underlying functions don't work with sparse matrices (yet)")
-        return(as(X, sparse_format))
+        return(as(x, sparse_format))
       }
       # them check dense formats
       else {
         dense_format = internal_formats[["dense"]]
         if(is.null(dense_format))
           stop("input is supposed to be dense matrix, but underlying functions don't work with dense matrices (yet)")
-        return(as(X, dense_format))
+        return(as(x, dense_format))
       }
     }
     #-------------------------------------------------------------------------------------
@@ -47,7 +47,7 @@ mlEstimatorOnline <- R6::R6Class(
   classname = "mlEstimatorOnline",
   inherit = mlEstimator,
   public = list(
-    partial_fit = function(X, y, ...) {},
+    partial_fit = function(x, y, ...) {},
     # has to dump inpternal model representation to R object in order to be able to load it in future
     # for example internally model can keep data out of R's heap and have external pointer to it
     dump = function() raise_placeholder_error(),
@@ -62,10 +62,11 @@ mlEstimatorOnline <- R6::R6Class(
 #' @export
 mlTransformer = R6::R6Class(
   classname = "mlTransformer",
+  inherit = mlEstimator,
   public = list(
-    fit = function(X, y = NULL, ...) raise_placeholder_error(),
-    fit_transform = function(X, y = NULL, ...) raise_placeholder_error(),
-    transform = function(X, y = NULL, ...) raise_placeholder_error()
+    fit = function(x, y = NULL, ...) raise_placeholder_error(),
+    fit_transform = function(x, y = NULL, ...) raise_placeholder_error(),
+    transform = function(x, y = NULL, ...) raise_placeholder_error()
   ),
   private = list(
     internal_matrix_formats = list(sparse = NULL, dense = NULL),
@@ -88,7 +89,7 @@ mlTransformerOnline <- R6::R6Class(
   classname = "mlTransformerOnline",
   inherit = mlTransformer,
   public = list(
-    partial_fit = function(X, y = NULL, ...) raise_placeholder_error(),
+    partial_fit = function(x, y = NULL, ...) raise_placeholder_error(),
     # has to dump inpternal model representation to R object in order to be able to load it in future
     # for example internally model can keep data out of R's heap and have external pointer to it
     dump = function() raise_placeholder_error(),
@@ -131,7 +132,7 @@ mlDecompositionOnline <- R6::R6Class(
   classname = "mlDecompositionOnline",
   inherit = mlDecomposition,
   public = list(
-    partial_fit = function(X, y = NULL, ...) raise_placeholder_error(),
+    partial_fit = function(x, y = NULL, ...) raise_placeholder_error(),
     # has to dump inpternal model representation to R object in order to be able to load it in future
     # for example internally model can keep data out of R's heap and have external pointer to it
     dump = function() raise_placeholder_error(),
