@@ -1,6 +1,6 @@
 #' @export
-mlEstimator = R6::R6Class(
-  classname = "mlEstimator",
+mlapiEstimator = R6::R6Class(
+  classname = "mlapiEstimator",
   public = list(
     fit = function(x, y, ...) raise_placeholder_error(),
     predict = function(x, ...) raise_placeholder_error()
@@ -43,9 +43,9 @@ mlEstimator = R6::R6Class(
 )
 #---------------------------------------------------------------------------------------
 #' @export
-mlEstimatorOnline <- R6::R6Class(
-  classname = "mlEstimatorOnline",
-  inherit = mlEstimator,
+mlapiEstimatorOnline <- R6::R6Class(
+  classname = "mlapiEstimatorOnline",
+  inherit = mlapiEstimator,
   public = list(
     partial_fit = function(x, y, ...) {},
     # has to dump inpternal model representation to R object in order to be able to load it in future
@@ -58,11 +58,10 @@ mlEstimatorOnline <- R6::R6Class(
   private = list()
 )
 #---------------------------------------------------------------------------------------
-#---------------------------------------------------------------------------------------
 #' @export
-mlTransformer = R6::R6Class(
-  classname = "mlTransformer",
-  inherit = mlEstimator,
+mlapiTransformer = R6::R6Class(
+  classname = "mlapiTransformer",
+  inherit = mlapiEstimator,
   public = list(
     fit = function(x, y = NULL, ...) raise_placeholder_error(),
     fit_transform = function(x, y = NULL, ...) raise_placeholder_error(),
@@ -85,9 +84,9 @@ mlTransformer = R6::R6Class(
 )
 #---------------------------------------------------------------------------------------
 #' @export
-mlTransformerOnline <- R6::R6Class(
-  classname = "mlTransformerOnline",
-  inherit = mlTransformer,
+mlapiTransformerOnline <- R6::R6Class(
+  classname = "mlapiTransformerOnline",
+  inherit = mlapiTransformer,
   public = list(
     partial_fit = function(x, y = NULL, ...) raise_placeholder_error(),
     # has to dump inpternal model representation to R object in order to be able to load it in future
@@ -101,9 +100,9 @@ mlTransformerOnline <- R6::R6Class(
 #---------------------------------------------------------------------------------------
 #---------------------------------------------------------------------------------------
 #' @export
-mlDecomposition = R6::R6Class(
-  classname = "mlDecomposition",
-  inherit = mlTransformer,
+mlapiDecomposition = R6::R6Class(
+  classname = "mlapiDecomposition",
+  inherit = mlapiTransformer,
   # public = list (
   #   components = NULL
   # ),
@@ -115,8 +114,10 @@ mlDecomposition = R6::R6Class(
         stop("Sorry this is a read-only variable.")
       else {
         # In "getter" role
-        if(is.null(private$components_))
-          stop("Decomposition model was not fitted yet!")
+        if(is.null(private$components_)) {
+          warning("Decomposition model was not fitted yet!")
+          private$components_
+        }
         else
           private$components_
       }
@@ -128,9 +129,9 @@ mlDecomposition = R6::R6Class(
 )
 #---------------------------------------------------------------------------------------
 #' @export
-mlDecompositionOnline <- R6::R6Class(
-  classname = "mlDecompositionOnline",
-  inherit = mlDecomposition,
+mlapiDecompositionOnline <- R6::R6Class(
+  classname = "mlapiDecompositionOnline",
+  inherit = mlapiDecomposition,
   public = list(
     partial_fit = function(x, y = NULL, ...) raise_placeholder_error(),
     # has to dump inpternal model representation to R object in order to be able to load it in future
