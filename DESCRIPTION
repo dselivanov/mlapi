@@ -1,15 +1,16 @@
 Package: mlapi
 Type: Package
 Title: Unified machine learning API
-Version: 0.1.1
+Version: 0.2.0
 Author: Dmitriy Selivanov
 Maintainer: Dmitriy Selivanov <selivanov.dmitriy@gmail.com>
-Description: Provides abstract classes for machine learning API in R
-License: GPL >= 3
+Description: Provides abstract classes for machine learning API in R.
+License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
+Depends: 
+    methods
 Imports:
     R6 (>= 2.2.1),
-    Matrix (>= 1.1),
-    methods
+    Matrix (>= 1.1)
 RoxygenNote: 6.0.1
