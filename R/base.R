@@ -15,19 +15,19 @@ mlapiBase = R6::R6Class(
       private$internal_matrix_formats = list(sparse = sparse, dense = dense)
     },
     #-------------------------------------------------------------------------------------
-    check_convert_input = function(x, internal_formats) {
-      stopifnot(all(names(internal_formats) %in% c("dense", "sparse")))
+    check_convert_input = function(x) {
+      stopifnot(all(names(private$internal_matrix_formats) %in% c("dense", "sparse")))
 
       # first check sparse input
       if(inherits(x, "sparseMatrix")) {
-        sparse_format = internal_formats[["sparse"]]
+        sparse_format = private$internal_matrix_formats[["sparse"]]
         if(is.null(sparse_format))
           stop("input inherits from 'sparseMatrix', but underlying functions don't work with SPARSE matrices")
         return(as(x, sparse_format))
       }
       # them check dense formats
       else {
-        dense_format = internal_formats[["dense"]]
+        dense_format = private$internal_matrix_formats[["dense"]]
         if(is.null(dense_format))
           stop(sprintf("don't know how to deal with input of class '%s'", paste(class(x), collapse = " | ") ))
         return(as(x, dense_format))
