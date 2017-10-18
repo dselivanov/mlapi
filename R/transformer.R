@@ -1,4 +1,4 @@
-#' @name mlapiTransformer
+#' @name mlapiTransformation
 #'
 #' @title Base abstract class for all transformations
 #' @description Base class for all online transformations.
@@ -17,8 +17,8 @@
 #'  \item{...}{additional parameters \bold{with default values}}
 #' }
 #' @export
-mlapiTransformer = R6::R6Class(
-  classname = "mlapiTransformer",
+mlapiTransformation = R6::R6Class(
+  classname = "mlapiTransformation",
   inherit = mlapiBase,
   public = list(
     fit_transform = function(x, y = NULL, ...) raise_placeholder_error(),
@@ -26,11 +26,11 @@ mlapiTransformer = R6::R6Class(
   )
 )
 #---------------------------------------------------------------------------------------
-#' @name mlapiTransformerOnline
+#' @name mlapiTransformationOnline
 #'
 #' @title Base abstract class for all transformations
 #' which can be \bold{trained incremendally} (online)
-#' @description Base class for all online transformations. This class inherits from \link{mlapiTransformer} and
+#' @description Base class for all online transformations. This class inherits from \link{mlapiTransformation} and
 #' additionally requires to implement \code{$partial_fit(x, y, ...)} method. Idea is that user can pass
 #' \code{x, y} in chunks and model will be updated/refined incrementally.
 #' @format \code{R6Class} object.
@@ -48,9 +48,9 @@ mlapiTransformer = R6::R6Class(
 #'  \item{...}{additional parameters \bold{with default values}}
 #' }
 #' @export
-mlapiTransformerOnline <- R6::R6Class(
-  classname = "mlapiTransformerOnline",
-  inherit = mlapiTransformer,
+mlapiTransformationOnline <- R6::R6Class(
+  classname = "mlapiTransformationOnline",
+  inherit = mlapiTransformation,
   public = list(
     partial_fit = function(x, y = NULL, ...) raise_placeholder_error()
     # has to dump inpternal model representation to R object in order to be able to load it in future

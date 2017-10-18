@@ -1,4 +1,4 @@
-#' @name mlapiEstimator
+#' @name mlapiEstimation
 #'
 #' @title Base abstract class for all classification/regression models
 #' @description Base class for all estimators.
@@ -18,8 +18,8 @@
 #'  \item{...}{additional parameters \bold{with default values}}
 #' }
 #' @export
-mlapiEstimator = R6::R6Class(
-  classname = "mlapiEstimator",
+mlapiEstimation = R6::R6Class(
+  classname = "mlapiEstimation",
   inherit = mlapiBase,
   public = list(
     fit = function(x, y, ...) raise_placeholder_error(),
@@ -27,11 +27,11 @@ mlapiEstimator = R6::R6Class(
   )
 )
 #---------------------------------------------------------------------------------------
-#' @name mlapiEstimatorOnline
+#' @name mlapiEstimationOnline
 #'
 #' @title Base abstract class for all classification/regression models
 #' which can be \bold{trained incremendally} (online)
-#' @description Base class for all online estimators. This class inherits from \link{mlapiEstimator} and
+#' @description Base class for all online estimators. This class inherits from \link{mlapiEstimation} and
 #' additionally requires to implement \code{$partial_fit(x, y, ...)} method. Idea is that user can pass
 #' \code{x, y} in chunks and model will be updated/refined incrementally.
 #' @format \code{R6Class} object.
@@ -50,9 +50,9 @@ mlapiEstimator = R6::R6Class(
 #'  \item{...}{additional parameters \bold{with default values}}
 #' }
 #' @export
-mlapiEstimatorOnline <- R6::R6Class(
-  classname = "mlapiEstimatorOnline",
-  inherit = mlapiEstimator,
+mlapiEstimationOnline <- R6::R6Class(
+  classname = "mlapiEstimationOnline",
+  inherit = mlapiEstimation,
   public = list(
     partial_fit = function(x, y, ...) raise_placeholder_error()
     # has to dump inpternal model representation to R object in order to be able to load it in future

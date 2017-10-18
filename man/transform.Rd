@@ -14,11 +14,11 @@
 \item{_data}{\bold{ = x} in other methods.
 A matrix like object, should \bold{inherit from \code{Matrix} or \code{matrix}}}
 
-\item{model}{object of class \code{mlapiTransformer} which
+\item{model}{object of class \code{mlapiTransformation} which
 implements method \code{$transform(x, ...)}}
 
 \item{...}{additional data/model dependent arguments to downstream functions.}
 }
 \description{
-Generic function to transform data with pre-trained \code{model} (inherits from \link{mlapiTransformer})
+Generic function to transform data with pre-trained \code{model} (inherits from \link{mlapiTransformation})
 }

@@ -5,7 +5,7 @@
 #' @description Base class for all \bold{decompositions} which are methods which can decompose matrix into
 #' 2 low-dimensional matrices \code{x = f(A, B)}.
 #' (Think of this Latent Dirichlet Allocation, Non-negative Matrix Factorization, etc).
-#' It iherits from \link{mlapiTransformer} and additionally requires to implement \code{components} member.
+#' It iherits from \link{mlapiTransformation} and additionally requires to implement \code{components} member.
 #'
 #' @format \code{R6Class} object.
 #' @field components features embeddings. So if matrix is decomposed in a form \code{x = f(A, B)} where
@@ -26,7 +26,7 @@
 #' @export
 mlapiDecomposition = R6::R6Class(
   classname = "mlapiDecomposition",
-  inherit = mlapiTransformer,
+  inherit = mlapiTransformation,
   active = list(
     # make components read only via active bindings
     components = function(value) {

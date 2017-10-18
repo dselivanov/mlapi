@@ -16,7 +16,7 @@ mlapiDecompositionOnline
 Base class for all \bold{decompositions} which are methods which can decompose matrix into
 2 low-dimensional matrices \code{x = f(A, B)}.
 (Think of this Latent Dirichlet Allocation, Non-negative Matrix Factorization, etc).
-It iherits from \link{mlapiTransformer} and additionally requires to implement \code{components} member.
+It iherits from \link{mlapiTransformation} and additionally requires to implement \code{components} member.
 
 Base class for all \bold{decompositions} which are methods which can decompose matrix into
 2 low-dimensional matrices \code{x = f(A, B)} \bold{incrementally}.

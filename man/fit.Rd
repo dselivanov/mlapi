@@ -28,5 +28,5 @@ for corresponding models.}
 \code{invisible(object$self())}
 }
 \description{
-Generic function to fit models (inherited from \link{mlapiEstimator})
+Generic function to fit models (inherited from \link{mlapiEstimation})
 }

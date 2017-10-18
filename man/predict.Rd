@@ -14,11 +14,11 @@
 \item{object}{\bold{ = x} in other methods.
 A matrix like object, should \bold{inherit from \code{Matrix} or \code{matrix}}}
 
-\item{model}{object which \bold{inherits} class \link{mlapiEstimator} which
+\item{model}{object which \bold{inherits} class \link{mlapiEstimation} which
 implements method \code{model$predict(x, ...)}}
 
 \item{...}{additional data/model dependent arguments to downstream functions}
 }
 \description{
-Makes predictions on new data using pre-trained \code{model} (inherits from \link{mlapiEstimator})
+Makes predictions on new data using pre-trained \code{model} (inherits from \link{mlapiEstimation})
 }

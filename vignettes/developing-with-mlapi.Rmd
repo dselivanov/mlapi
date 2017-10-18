@@ -13,8 +13,8 @@ vignette: >
 
 Idea of `mlapi` package is to provide guiline on how to implement interfaces of machine learning models in order to have unified consistent flow. API design is mainly borrowed from very successful python `scikit-learn` package. Initially scope of the interfaces si limited to the following **base classes**:
 
-1. `mlapiEstimator`/`mlapiEstimatorOnline` - models which implements supervised learning - **regression** or **classification**
-1. `mlapiTransformer`/`mlapiTransformerOnline` - models which learn **transformations** of the data. For example model can learn TF-IDF on some matrix and apply it to the other holdout matrix
+1. `mlapiEstimation`/`mlapiEstimationOnline` - models which implements supervised learning - **regression** or **classification**
+1. `mlapiTransformation`/`mlapiTransformationOnline` - models which learn **transformations** of the data. For example model can learn TF-IDF on some matrix and apply it to the other holdout matrix
 1. `mlapiDecomposition`/`mlapiDecompositionOnline` - models which **decompose** input matrix into two matrices (usually low rank). Good example could be matrix factorization where input matrix $X$ decomposed into 2 matrices $P$ and $Q$ so $X \approx P Q$ in some sense.
 
 All base classes above enforce developer to implement some specific methods and expose particular members. Developer should provide realization of the class which **inherits from a corresponding base class** above.
@@ -24,12 +24,12 @@ There are several **agreements** which helps to have consistent workflow.
 1. In opposite to the most of the R packages `mlapi` states that *models should be mutable* and internally implemented as `R6` classes.
 1. Model creation is a declarative process where all model paramenters should be passed to the constructor. Model creation is separate to model fitting: `model = SomeModel$new(param_1 = 1, param_2 = 10)`.
 1. Depending on the base class models should implement following methods for model training:
-    * **`fit`** - `mlapiEstimator`
-    * **`fit_transform`** - `mlapiTransformer`, `mlapiDecomposition`
-    * **`partial_fit`** - `mlapiEstimatorOnline`, `mlapiTransformerOnline`, `mlapiDecompositionOnline`
+    * **`fit`** - `mlapiEstimation`
+    * **`fit_transform`** - `mlapiTransformation`, `mlapiDecomposition`
+    * **`partial_fit`** - `mlapiEstimationOnline`, `mlapiTransformationOnline`, `mlapiDecompositionOnline`
 1. Depending on the base class models should implement following methods for model transformations/predictions:  
-    * **`predict`** - `mlapiEstimator`, `mlapiEstimatorOnline`
-    * **`transform`** - `mlapiTransformer`, `mlapiTransformerOnline`, `mlapiDecomposition`, `mlapiDecompositionOnline`
+    * **`predict`** - `mlapiEstimation`, `mlapiEstimationOnline`
+    * **`transform`** - `mlapiTransformation`, `mlapiTransformationOnline`, `mlapiDecomposition`, `mlapiDecompositionOnline`
 1. After `mlapiDecomposition`/`mlapiDecompositionOnline` model fitting there should be `private$components_` field exist(note undescore at the end!). It should contain **matrix** $Q$ (as per $X \approx P Q$). 
 1. All the methods above **work only with matrices** - dense or sparse. Dense matrices usually are from `base` package and sparse matrices from `Matrix` package.
 
@@ -79,7 +79,7 @@ predictions = test %>%
 ```{r}
 SimpleLinearModel = R6::R6Class(
   classname = "mlapiSimpleLinearModel", 
-  inherit = mlapi::mlapiEstimator, 
+  inherit = mlapi::mlapiEstimation, 
   public = list(
     initialize = function(tol = 1e-7) {
       private$tol = tol

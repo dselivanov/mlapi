@@ -28,5 +28,5 @@ See documentation for corresponding models.}
 Transformed version of the \code{x}
 }
 \description{
-Generic function to fit transformers (inherits from \link{mlapiTransformer})
+Generic function to fit transformers (inherits from \link{mlapiTransformation})
 }
