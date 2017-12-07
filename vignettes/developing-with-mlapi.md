@@ -1,7 +1,7 @@
 ---
 title: "Developing machine learning models with 'mlapi'"
 author: "Dmitry Selivanov"
-date: "`r Sys.Date()`"
+date: "2017-12-07"
 output: 
   rmarkdown::html_vignette:
     keep_md: true
@@ -42,7 +42,8 @@ This allows us to create concise pipelines which easy to train and apply to new 
 
 ### Declare models
 
-```{r, eval=FALSE}
+
+```r
 # transformer:
 # scaler just divide each column by std_dev
 scaler = Scaler$new()
@@ -60,7 +61,8 @@ logreg = LogisticRegression(L1 = 0.1, L2 = 10)
 ```
 
 ### Apply pipeline to the train data
-```{r, eval=FALSE}
+
+```r
 train %>% 
   fit_transform(scaler) %>% 
   fit_transform(trunc_svd) %>% 
@@ -70,17 +72,18 @@ Now all models are fitted.
 
 ### Apply models to the new data
 
-```{r, eval=FALSE}
+
+```r
 predictions = test %>% 
   transform(scaler) %>% 
   transform(trunc_svd) %>% 
   predict(logreg)
-
 ```
 
 # Estimator
 
-```{r}
+
+```r
 SimpleLinearModel = R6::R6Class(
   classname = "mlapiSimpleLinearModel", 
   inherit = mlapi::mlapiEstimation, 
@@ -112,11 +115,12 @@ SimpleLinearModel = R6::R6Class(
 ```
 
 ### Usage
-```{r}
+
+```r
 set.seed(1)
 model = SimpleLinearModel$new()
-x = matrix(sample(100 * 10, replace = T), ncol = 10)
-y = sample(c(0, 1), 100, replace = T)
+x = matrix(sample(100 * 10, replace = TRUE), ncol = 10)
+y = sample(c(0, 1), 100, replace = TRUE)
 model$fit(as.data.frame(x), y)
 res1 = model$predict(x)
 # check pipe-compatible S3 interface
@@ -124,10 +128,15 @@ res2 = predict(x, model)
 identical(res1, res2)
 ```
 
+```
+## [1] TRUE
+```
+
 
 # Decomposition
 
-```{r}
+
+```r
 TruncatedSVD = R6::R6Class(
   classname = "TruncatedSVD", 
   inherit = mlapi::mlapiDecomposition, 
@@ -169,17 +178,34 @@ TruncatedSVD = R6::R6Class(
 ```
 
 ### Usage
-```{r}
+
+```r
 set.seed(1)
 model = TruncatedSVD$new(2)
-x = matrix(sample(100 * 10, replace = T), ncol = 10)
+x = matrix(sample(100 * 10, replace = TRUE), ncol = 10)
 x_trunc = model$fit_transform(x)
 dim(x_trunc)
+```
 
+```
+## [1] 100   2
+```
+
+```r
 x_trunc_2 = model$transform(x)
 sum(x_trunc_2 - x_trunc)
+```
 
+```
+## [1] -9.428555e-12
+```
+
+```r
 # check pipe-compatible S3 interface
 x_trunc_2_s3 = transform(x, model)
 identical(x_trunc_2, x_trunc_2_s3)
+```
+
+```
+## [1] TRUE
 ```

@@ -1,1 +1,1 @@
-vignettes/developing-with-mlapi.Rmd
+vignettes/developing-with-mlapi.md

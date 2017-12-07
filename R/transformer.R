@@ -53,10 +53,5 @@ mlapiTransformationOnline <- R6::R6Class(
   inherit = mlapiTransformation,
   public = list(
     partial_fit = function(x, y = NULL, ...) raise_placeholder_error()
-    # has to dump inpternal model representation to R object in order to be able to load it in future
-    # for example internally model can keep data out of R's heap and have external pointer to it
-    # dump = function() raise_placeholder_error(),
-    # load data from dump to internal representation - ie load data to internal out of heap data structures
-    # load = function(model) raise_placeholder_error()
   )
 )
